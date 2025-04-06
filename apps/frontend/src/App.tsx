@@ -1,14 +1,10 @@
 import React from 'react'
+import { MainDashboard } from './pages/dashboard/MainDashboard';
 
 export const App = () => {
   return (
     <div>
-      <button onClick={async () => {
-        const response = await fetch('/api');
-        const data = await response.text();
-        console.log(data);
-        
-      }}>Click me</button>
+      <MainDashboard></MainDashboard>
     </div>
   )
 }
