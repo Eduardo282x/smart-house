@@ -1,10 +1,10 @@
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from "recharts"
 
 const data = [
-    { name: "Entrance", energy: 25 },
-    { name: "Classroom 1", energy: 45 },
-    { name: "Classroom 2", energy: 65 },
-    { name: "Dining Area", energy: 35 },
+    { name: "Entrada", energy: 25 },
+    { name: "Salon 1", energy: 45 },
+    { name: "Salon 2", energy: 65 },
+    { name: "Comedor", energy: 35 },
 ]
 
 export const AreaConsumptionChart = () => {

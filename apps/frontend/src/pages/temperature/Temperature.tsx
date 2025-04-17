@@ -5,23 +5,12 @@ import { Slider } from "@/components/ui/slider"
 import { Switch } from "@/components/ui/switch"
 import { Button } from "@/components/ui/button"
 import { Thermometer, Power } from "lucide-react"
+import { AirConditioner, temperatureData } from "./temprature.data"
 
-interface AirConditioner {
-    id: string
-    name: string
-    area: string
-    status: boolean
-    temperature: number
-    consumption: number
-}
+
 
 export const TemperatureControl = () => {
-    const [airConditioners, setAirConditioners] = useState<AirConditioner[]>([
-        { id: "ac1", name: "Main Entrance AC", area: "Entrance", status: true, temperature: 23, consumption: 120 },
-        { id: "ac2", name: "Classroom 1 AC", area: "Classroom 1", status: true, temperature: 22, consumption: 150 },
-        { id: "ac3", name: "Classroom 2 AC", area: "Classroom 2", status: true, temperature: 21, consumption: 180 },
-        { id: "ac4", name: "Dining Area AC", area: "Dining Area", status: false, temperature: 24, consumption: 160 },
-    ])
+    const [airConditioners, setAirConditioners] = useState<AirConditioner[]>(temperatureData)
 
     const toggleAC = (id: string) => {
         setAirConditioners(airConditioners.map((ac) => (ac.id === id ? { ...ac, status: !ac.status } : ac)))
@@ -31,12 +20,12 @@ export const TemperatureControl = () => {
         setAirConditioners(airConditioners.map((ac) => (ac.id === id ? { ...ac, temperature } : ac)))
     }
 
-    const areas = ["Entrance", "Classroom 1", "Classroom 2", "Dining Area"]
+    const areas = ["Entrada", "Salon 1", "Salon 2", "Comedor"]
 
     return (
         <div className="space-y-6">
             <div className="flex justify-between items-center">
-                <h2 className="text-2xl font-bold">Temperature Control</h2>
+                <h2 className="text-2xl font-bold text-white">Control de temperatura</h2>
                 <Button
                     variant="outline"
                     onClick={() => setAirConditioners(airConditioners.map((ac) => ({ ...ac, status: false })))}
@@ -45,7 +34,7 @@ export const TemperatureControl = () => {
                 </Button>
             </div>
 
-            <Tabs defaultValue="Entrance">
+            <Tabs defaultValue="Entrada">
                 <TabsList className="grid grid-cols-4 mb-4">
                     {areas.map((area) => (
                         <TabsTrigger key={area} value={area}>
@@ -61,7 +50,7 @@ export const TemperatureControl = () => {
                         <TabsContent key={area} value={area}>
                             <Card>
                                 <CardHeader>
-                                    <CardTitle>{area} Temperature Control</CardTitle>
+                                    <CardTitle>{area} Control de temperatura</CardTitle>
                                     <CardDescription>Adjust the temperature settings for the {area.toLowerCase()}.</CardDescription>
                                 </CardHeader>
                                 <CardContent>

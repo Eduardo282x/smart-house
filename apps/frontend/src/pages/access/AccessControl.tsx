@@ -15,25 +15,25 @@ interface AccessEvent {
 
 export function AccessControl() {
     const accessEvents: AccessEvent[] = [
-        { id: "1", name: "Maria Rodriguez", role: "Teacher", area: "Entrance", type: "entry", time: "08:15 AM" },
-        { id: "2", name: "John Smith", role: "Student", area: "Entrance", type: "entry", time: "08:20 AM" },
-        { id: "3", name: "Sarah Johnson", role: "Student", area: "Classroom 1", type: "entry", time: "08:25 AM" },
-        { id: "4", name: "David Lee", role: "Student", area: "Classroom 2", type: "entry", time: "08:30 AM" },
-        { id: "5", name: "Emma Wilson", role: "Student", area: "Dining Area", type: "entry", time: "12:00 PM" },
-        { id: "6", name: "Emma Wilson", role: "Student", area: "Dining Area", type: "exit", time: "12:45 PM" },
-        { id: "7", name: "Sarah Johnson", role: "Student", area: "Classroom 1", type: "exit", time: "02:30 PM" },
-        { id: "8", name: "David Lee", role: "Student", area: "Classroom 2", type: "exit", time: "03:00 PM" },
-        { id: "9", name: "John Smith", role: "Student", area: "Entrance", type: "exit", time: "03:15 PM" },
-        { id: "10", name: "Maria Rodriguez", role: "Teacher", area: "Entrance", type: "exit", time: "04:00 PM" },
+        { id: "1", name: "Maria Rodriguez", role: "Teacher", area: "Entrada", type: "entry", time: "08:15 AM" },
+        { id: "2", name: "John Smith", role: "Student", area: "Entrada", type: "entry", time: "08:20 AM" },
+        { id: "3", name: "Sarah Johnson", role: "Student", area: "Salon 1", type: "entry", time: "08:25 AM" },
+        { id: "4", name: "David Lee", role: "Student", area: "Salon 2", type: "entry", time: "08:30 AM" },
+        { id: "5", name: "Emma Wilson", role: "Student", area: "Comedor", type: "entry", time: "12:00 PM" },
+        { id: "6", name: "Emma Wilson", role: "Student", area: "Comedor", type: "exit", time: "12:45 PM" },
+        { id: "7", name: "Sarah Johnson", role: "Student", area: "Salon 1", type: "exit", time: "02:30 PM" },
+        { id: "8", name: "David Lee", role: "Student", area: "Salon 2", type: "exit", time: "03:00 PM" },
+        { id: "9", name: "John Smith", role: "Student", area: "Entrada", type: "exit", time: "03:15 PM" },
+        { id: "10", name: "Maria Rodriguez", role: "Teacher", area: "Entrada", type: "exit", time: "04:00 PM" },
     ]
 
-    const areas = ["All Areas", "Entrance", "Classroom 1", "Classroom 2", "Dining Area"]
+    const areas = ["Todos", "Entrada", "Salon 1", "Salon 2", "Comedor"]
 
     return (
         <div className="space-y-6">
-            <h2 className="text-2xl font-bold">Access Control</h2>
+            <h2 className="text-2xl font-bold text-white">Control de Acceso</h2>
 
-            <Tabs defaultValue="All Areas">
+            <Tabs defaultValue="Todos">
                 <TabsList className="mb-4">
                     {areas.map((area) => (
                         <TabsTrigger key={area} value={area}>
@@ -46,15 +46,15 @@ export function AccessControl() {
                     <TabsContent key={area} value={area}>
                         <Card>
                             <CardHeader>
-                                <CardTitle>{area === "All Areas" ? "All Access Events" : `${area} Access Events`}</CardTitle>
+                                <CardTitle>{area === "Todos" ? "All Access Events" : `${area} Access Events`}</CardTitle>
                                 <CardDescription>
-                                    Real-time log of entries and exits {area !== "All Areas" ? `in the ${area.toLowerCase()}` : ""}.
+                                    Real-time log of entries and exits {area !== "Todos" ? `in the ${area.toLowerCase()}` : ""}.
                                 </CardDescription>
                             </CardHeader>
                             <CardContent>
-                                <div className="space-y-4">
+                                <div className="space-y-4 h-80 overflow-y-auto">
                                     {accessEvents
-                                        .filter((event) => area === "All Areas" || event.area === area)
+                                        .filter((event) => area === "Todos" || event.area === area)
                                         .map((event) => (
                                             <div key={event.id} className="flex items-center justify-between p-4 border rounded-lg">
                                                 <div className="flex items-center space-x-4">

@@ -4,27 +4,11 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Switch } from "@/components/ui/switch"
 import { Button } from "@/components/ui/button"
 import { Lightbulb, Power } from "lucide-react"
+import { lightData, LightFixture } from "./lighting.data"
 
-interface LightFixture {
-    id: string
-    name: string
-    area: string
-    type: string
-    status: boolean
-    consumption: number
-}
 
 export const LightingControl = () => {
-    const [lights, setLights] = useState<LightFixture[]>([
-        { id: "l1", name: "Main Entrance Light 1", area: "Entrance", type: "LED", status: true, consumption: 12 },
-        { id: "l2", name: "Main Entrance Light 2", area: "Entrance", type: "LED", status: true, consumption: 12 },
-        { id: "l3", name: "Classroom 1 Light 1", area: "Classroom 1", type: "Fluorescent", status: true, consumption: 18 },
-        { id: "l4", name: "Classroom 1 Light 2", area: "Classroom 1", type: "Fluorescent", status: false, consumption: 18 },
-        { id: "l5", name: "Classroom 2 Light 1", area: "Classroom 2", type: "LED", status: true, consumption: 15 },
-        { id: "l6", name: "Classroom 2 Light 2", area: "Classroom 2", type: "LED", status: true, consumption: 15 },
-        { id: "l7", name: "Dining Area Light 1", area: "Dining Area", type: "LED", status: true, consumption: 20 },
-        { id: "l8", name: "Dining Area Light 2", area: "Dining Area", type: "LED", status: false, consumption: 20 },
-    ])
+    const [lights, setLights] = useState<LightFixture[]>(lightData)
 
     const toggleLight = (id: string) => {
         setLights(lights.map((light) => (light.id === id ? { ...light, status: !light.status } : light)))
@@ -34,19 +18,19 @@ export const LightingControl = () => {
         setLights(lights.map((light) => (light.area === area ? { ...light, status } : light)))
     }
 
-    const areas = ["Entrance", "Classroom 1", "Classroom 2", "Dining Area"]
+    const areas = ["Todos", "Entrada", "Salon 1", "Salon 2", "Comedor"]
 
     return (
         <div className="space-y-6">
             <div className="flex justify-between items-center">
-                <h2 className="text-2xl font-bold">Lighting Control</h2>
+                <h2 className="text-2xl font-bold text-white">Control de Luces</h2>
                 <Button variant="outline" onClick={() => setLights(lights.map((light) => ({ ...light, status: false })))}>
                     <Power className="mr-2 h-4 w-4" /> Turn Off All Lights
                 </Button>
             </div>
 
-            <Tabs defaultValue="Entrance">
-                <TabsList className="grid grid-cols-4 mb-4">
+            <Tabs defaultValue="Entrada">
+                <TabsList className="grid grid-cols-5 mb-4">
                     {areas.map((area) => (
                         <TabsTrigger key={area} value={area}>
                             {area}
@@ -59,7 +43,7 @@ export const LightingControl = () => {
                         <Card>
                             <CardHeader>
                                 <div className="flex justify-between items-center">
-                                    <CardTitle>{area} Lights</CardTitle>
+                                    <CardTitle>{area} Luces</CardTitle>
                                     <div className="flex space-x-4">
                                         <Button variant="outline" size="sm" onClick={() => toggleAllLights(area, true)}>
                                             Turn All On
