@@ -18,7 +18,7 @@ export function ReportsModule() {
 
     return (
         <div className="space-y-6">
-            <h2 className="text-2xl font-bold text-white">Reportes</h2>
+            <h2 className="text-2xl font-bold text-black">Reportes</h2>
 
             <GenerateReport
                 date={date}

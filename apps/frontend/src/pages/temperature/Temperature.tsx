@@ -25,7 +25,7 @@ export const TemperatureControl = () => {
     return (
         <div className="space-y-6">
             <div className="flex justify-between items-center">
-                <h2 className="text-2xl font-bold text-white">Control de temperatura</h2>
+                <h2 className="text-2xl font-bold text-black">Control de temperatura</h2>
                 <Button
                     variant="outline"
                     onClick={() => setAirConditioners(airConditioners.map((ac) => ({ ...ac, status: false })))}

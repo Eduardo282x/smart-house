@@ -31,7 +31,7 @@ export function AccessControl() {
 
     return (
         <div className="space-y-6">
-            <h2 className="text-2xl font-bold text-white">Control de Acceso</h2>
+            <h2 className="text-2xl font-bold text-black">Control de Acceso</h2>
 
             <Tabs defaultValue="Todos">
                 <TabsList className="mb-4">

@@ -23,7 +23,7 @@ export const LightingControl = () => {
     return (
         <div className="space-y-6">
             <div className="flex justify-between items-center">
-                <h2 className="text-2xl font-bold text-white">Control de Luces</h2>
+                <h2 className="text-2xl font-bold text-black">Control de Luces</h2>
                 <Button variant="outline" onClick={() => setLights(lights.map((light) => ({ ...light, status: false })))}>
                     <Power className="mr-2 h-4 w-4" /> Turn Off All Lights
                 </Button>

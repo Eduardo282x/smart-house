@@ -38,6 +38,18 @@ export const AppSidebar = () => {
         // if (location.pathname === '/reportes') setBgColor('bg-purple-300')
     }, [location.pathname])
 
+    const colorClassMap: Record<string, { text: string; bg: string }> = {
+        'green-600': { text: 'text-green-600', bg: 'bg-green-600' },
+        'yellow-500': { text: 'text-yellow-500', bg: 'bg-yellow-500' },
+        'orange-500': { text: 'text-orange-500', bg: 'bg-orange-500' },
+        'sky-500': { text: 'text-sky-500', bg: 'bg-sky-500' },
+        'emerald-500': { text: 'text-emerald-500', bg: 'bg-emerald-500' },
+        'indigo-500': { text: 'text-indigo-500', bg: 'bg-indigo-500' },
+        'gray-500': { text: 'text-gray-500', bg: 'bg-gray-500' },
+        'purple-500': { text: 'text-purple-500', bg: 'bg-purple-500' },
+        'fuchsia-600': { text: 'text-fuchsia-600', bg: 'bg-fuchsia-600' },
+    };
+
     return (
         <Sidebar>
             <SidebarHeader>
@@ -49,7 +61,7 @@ export const AppSidebar = () => {
                             </div>
                             <div className="flex flex-col gap-0.5 leading-none">
                                 <span className="font-semibold">OPTIDOMO</span>
-                                <span className="text-xs text-muted-foreground">Monitoreo de Energía</span>
+                                {/* <span className="text-xs text-muted-foreground">Monitoreo de Energía</span> */}
                             </div>
                         </SidebarMenuButton>
                     </SidebarMenuItem>
@@ -59,14 +71,22 @@ export const AppSidebar = () => {
                 <SidebarGroup>
                     <SidebarGroupContent>
                         <SidebarMenu>
-                            {menuSidebar && menuSidebar.map((me: IMenu, index: number) => (
-                                <SidebarMenuItem key={index}>
-                                    <SidebarMenuButton onClick={() => navigate(me.url)} className={`font-medium text-md hover:text-${me.className} ${me.active ? `bg-${me.className} hover:text-white hover:bg-${me.className} text-white` : `text-${me.className}`}`}>
-                                        <me.icon />
-                                        <span>{me.label}</span>
-                                    </SidebarMenuButton>
-                                </SidebarMenuItem>
-                            ))}
+                            {menuSidebar && menuSidebar.map((me: IMenu, index: number) => {
+                                // const color = colorClassMap[me.className ?? 'gray-500'];
+    const color = colorClassMap[me.className ?? 'gray-500'] || colorClassMap['gray-500'];
+                                return (
+                                    <SidebarMenuItem key={index}>
+                                        <SidebarMenuButton
+                                            onClick={() => navigate(me.url)}
+                                            className={`font-medium text-md hover:${color.text} ${me.active
+                                                ? `${color.bg} hover:text-white hover:${color.bg} text-white`
+                                                : `${color.text}`}`}>
+                                            <me.icon />
+                                            <span>{me.label}</span>
+                                        </SidebarMenuButton>
+                                    </SidebarMenuItem>
+                                )
+                            })}
                         </SidebarMenu>
                     </SidebarGroupContent>
                 </SidebarGroup>
