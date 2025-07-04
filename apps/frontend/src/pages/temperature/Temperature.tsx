@@ -30,7 +30,7 @@ export const TemperatureControl = () => {
                     variant="outline"
                     onClick={() => setAirConditioners(airConditioners.map((ac) => ({ ...ac, status: false })))}
                 >
-                    <Power className="mr-2 h-4 w-4" /> Turn Off All ACs
+                    <Power className="mr-2 h-4 w-4" /> Apagar todos
                 </Button>
             </div>
 
@@ -51,7 +51,7 @@ export const TemperatureControl = () => {
                             <Card>
                                 <CardHeader>
                                     <CardTitle>{area} Control de temperatura</CardTitle>
-                                    <CardDescription>Adjust the temperature settings for the {area.toLowerCase()}.</CardDescription>
+                                    <CardDescription>Ajuste de temperatura para {area.toLowerCase()}.</CardDescription>
                                 </CardHeader>
                                 <CardContent>
                                     <div className="space-y-6">
@@ -72,7 +72,7 @@ export const TemperatureControl = () => {
                                                                 <div>
                                                                     <p className="font-medium">{ac.name}</p>
                                                                     <p className="text-sm text-muted-foreground">
-                                                                        Current consumption: {ac.consumption} W/h
+                                                                        Consumo actual: {ac.consumption} W/h
                                                                     </p>
                                                                 </div>
                                                             </div>
@@ -81,7 +81,7 @@ export const TemperatureControl = () => {
 
                                                         <div className="pt-4">
                                                             <div className="flex justify-between items-center mb-2">
-                                                                <span className="text-sm font-medium">Temperature</span>
+                                                                <span className="text-sm font-medium">Temperatura</span>
                                                                 <span className="text-2xl font-bold text-orange-500">{ac.temperature}°C</span>
                                                             </div>
                                                             <Slider

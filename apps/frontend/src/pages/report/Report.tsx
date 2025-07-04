@@ -1,7 +1,7 @@
 import { useState } from "react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-
+import { es } from "date-fns/locale";
 import { Button } from "@/components/ui/button"
 
 import { Download, FileBarChart } from "lucide-react"
@@ -40,7 +40,7 @@ export function ReportsModule() {
                         <CardHeader>
                             <div className="flex justify-between items-center">
                                 <CardTitle>
-                                    {reportType === "energy" && "Energy Consumption Report"}
+                                    {reportType === "energy" && "Reporte de consumo electrico"}
                                     {reportType === "temperature" && "Temperature Report"}
                                     {reportType === "access" && "Access Control Report"}
                                 </CardTitle>
@@ -50,7 +50,7 @@ export function ReportsModule() {
                                 </Button>
                             </div>
                             <CardDescription>
-                                {reportPeriod === "daily" && "Daily report for " + (date ? format(date, "PPP") : "today")}
+                                {reportPeriod === "daily" && "Reporte diario de " + (date ? format(date, "PPP", { locale: es }) : "today")}
                                 {reportPeriod === "weekly" &&
                                     "Weekly report for the week of " + (date ? format(date, "PPP") : "this week")}
                                 {reportPeriod === "monthly" &&

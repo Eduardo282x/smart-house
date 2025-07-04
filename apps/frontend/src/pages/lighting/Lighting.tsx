@@ -25,7 +25,7 @@ export const LightingControl = () => {
             <div className="flex justify-between items-center">
                 <h2 className="text-2xl font-bold text-black">Control de Luces</h2>
                 <Button variant="outline" onClick={() => setLights(lights.map((light) => ({ ...light, status: false })))}>
-                    <Power className="mr-2 h-4 w-4" /> Turn Off All Lights
+                    <Power className="mr-2 h-4 w-4" /> Apagar todas
                 </Button>
             </div>
 
@@ -46,14 +46,14 @@ export const LightingControl = () => {
                                     <CardTitle>{area} Luces</CardTitle>
                                     <div className="flex space-x-4">
                                         <Button variant="outline" size="sm" onClick={() => toggleAllLights(area, true)}>
-                                            Turn All On
+                                            Prender todas
                                         </Button>
                                         <Button variant="outline" size="sm" onClick={() => toggleAllLights(area, false)}>
-                                            Turn All Off
+                                            Apagar todas
                                         </Button>
                                     </div>
                                 </div>
-                                <CardDescription>Control the lighting in the {area.toLowerCase()}.</CardDescription>
+                                <CardDescription>Control de luces en {area.toLowerCase()}.</CardDescription>
                             </CardHeader>
                             <CardContent>
                                 <div className="grid gap-4 md:grid-cols-2">

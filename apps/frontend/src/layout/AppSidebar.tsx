@@ -94,7 +94,7 @@ export const AppSidebar = () => {
 
             <SidebarFooter>
                 <div className="flex items-center justify-between p-4">
-                    <Button variant="outline" className="w-full">
+                    <Button variant="outline" className="w-full bg-red-600 text-white">
                         <span>Cerrar Sesión</span>
                         <LogOut className="h-4 w-4" />
                     </Button>

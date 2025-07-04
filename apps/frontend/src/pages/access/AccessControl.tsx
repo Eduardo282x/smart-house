@@ -9,22 +9,22 @@ interface AccessEvent {
     name: string
     role: string
     area: string
-    type: "entry" | "exit"
+    type: "Entrada" | "Salida"
     time: string
 }
 
 export function AccessControl() {
     const accessEvents: AccessEvent[] = [
-        { id: "1", name: "Maria Rodriguez", role: "Teacher", area: "Entrada", type: "entry", time: "08:15 AM" },
-        { id: "2", name: "John Smith", role: "Student", area: "Entrada", type: "entry", time: "08:20 AM" },
-        { id: "3", name: "Sarah Johnson", role: "Student", area: "Salon 1", type: "entry", time: "08:25 AM" },
-        { id: "4", name: "David Lee", role: "Student", area: "Salon 2", type: "entry", time: "08:30 AM" },
-        { id: "5", name: "Emma Wilson", role: "Student", area: "Comedor", type: "entry", time: "12:00 PM" },
-        { id: "6", name: "Emma Wilson", role: "Student", area: "Comedor", type: "exit", time: "12:45 PM" },
-        { id: "7", name: "Sarah Johnson", role: "Student", area: "Salon 1", type: "exit", time: "02:30 PM" },
-        { id: "8", name: "David Lee", role: "Student", area: "Salon 2", type: "exit", time: "03:00 PM" },
-        { id: "9", name: "John Smith", role: "Student", area: "Entrada", type: "exit", time: "03:15 PM" },
-        { id: "10", name: "Maria Rodriguez", role: "Teacher", area: "Entrada", type: "exit", time: "04:00 PM" },
+        { id: "1", name: "Maria Rodriguez", role: "Profesor", area: "Entrada", type: "Entrada", time: "08:15 AM" },
+        { id: "2", name: "John Smith", role: "Estudiante", area: "Entrada", type: "Entrada", time: "08:20 AM" },
+        { id: "3", name: "Sarah Johnson", role: "Estudiante", area: "Salon 1", type: "Entrada", time: "08:25 AM" },
+        { id: "4", name: "David Lee", role: "Estudiante", area: "Salon 2", type: "Entrada", time: "08:30 AM" },
+        { id: "5", name: "Emma Wilson", role: "Estudiante", area: "Comedor", type: "Entrada", time: "12:00 PM" },
+        { id: "6", name: "Emma Wilson", role: "Estudiante", area: "Comedor", type: "Salida", time: "12:45 PM" },
+        { id: "7", name: "Sarah Johnson", role: "Estudiante", area: "Salon 1", type: "Salida", time: "02:30 PM" },
+        { id: "8", name: "David Lee", role: "Estudiante", area: "Salon 2", type: "Salida", time: "03:00 PM" },
+        { id: "9", name: "John Smith", role: "Estudiante", area: "Entrada", type: "Salida", time: "03:15 PM" },
+        { id: "10", name: "Maria Rodriguez", role: "Profesor", area: "Entrada", type: "Salida", time: "04:00 PM" },
     ]
 
     const areas = ["Todos", "Entrada", "Salon 1", "Salon 2", "Comedor"]
@@ -46,9 +46,9 @@ export function AccessControl() {
                     <TabsContent key={area} value={area}>
                         <Card>
                             <CardHeader>
-                                <CardTitle>{area === "Todos" ? "All Access Events" : `${area} Access Events`}</CardTitle>
+                                <CardTitle>{area === "Todos" ? "Control de accesos" : `${area} Access Events`}</CardTitle>
                                 <CardDescription>
-                                    Real-time log of entries and exits {area !== "Todos" ? `in the ${area.toLowerCase()}` : ""}.
+                                    Tiempo real de entradas y salidas {area !== "Todos" ? `in the ${area.toLowerCase()}` : ""}.
                                 </CardDescription>
                             </CardHeader>
                             <CardContent>
@@ -77,16 +77,16 @@ export function AccessControl() {
                                                         <p className="text-sm text-muted-foreground">{event.time}</p>
                                                     </div>
                                                     <Badge
-                                                        variant={event.type === "entry" ? "default" : "secondary"}
+                                                        variant={event.type === "Entrada" ? "default" : "secondary"}
                                                         className="flex items-center space-x-1"
                                                     >
-                                                        {event.type === "entry" ? (
+                                                        {event.type === "Entrada" ? (
                                                             <>
-                                                                <LogIn className="h-3 w-3" /> <span>Entry</span>
+                                                                <LogIn className="h-3 w-3" /> <span>Entrada</span>
                                                             </>
                                                         ) : (
                                                             <>
-                                                                <LogOut className="h-3 w-3" /> <span>Exit</span>
+                                                                <LogOut className="h-3 w-3" /> <span>Salida</span>
                                                             </>
                                                         )}
                                                     </Badge>

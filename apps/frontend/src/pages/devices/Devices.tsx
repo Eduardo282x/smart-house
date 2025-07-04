@@ -29,6 +29,7 @@ import {
 } from "@/components/ui/alert-dialog"
 import { Badge } from "@/components/ui/badge"
 import { Plus, Edit, Trash2, Lightbulb, Thermometer, Zap } from "lucide-react"
+import { FaPlug } from "react-icons/fa"
 
 interface Device {
     id: string
@@ -44,7 +45,7 @@ export const Devices = () => {
     const [devices, setDevices] = useState<Device[]>([
         {
             id: "1",
-            name: "Main Entrance Light 1",
+            name: "Luz principal",
             type: "light",
             subtype: "LED",
             consumption: 12,
@@ -53,7 +54,7 @@ export const Devices = () => {
         },
         {
             id: "2",
-            name: "Main Entrance Light 2",
+            name: "Luz secundaria",
             type: "light",
             subtype: "LED",
             consumption: 12,
@@ -62,7 +63,7 @@ export const Devices = () => {
         },
         {
             id: "3",
-            name: "Classroom 1 AC",
+            name: "Aire Split 12BTU",
             type: "air_conditioner",
             subtype: "Split",
             consumption: 150,
@@ -71,7 +72,7 @@ export const Devices = () => {
         },
         {
             id: "4",
-            name: "Classroom 1 Light 1",
+            name: "Aire Split 24BTU",
             type: "light",
             subtype: "Fluorescent",
             consumption: 18,
@@ -80,7 +81,7 @@ export const Devices = () => {
         },
         {
             id: "5",
-            name: "Dining Area AC",
+            name: "Aire 3T",
             type: "air_conditioner",
             subtype: "Central",
             consumption: 200,
@@ -182,14 +183,14 @@ export const Devices = () => {
         <div className="space-y-6">
             <div className="flex justify-between items-center">
                 <div>
-                    <h2 className="text-2xl font-bold">Devices Management</h2>
-                    <p className="text-muted-foreground">Manage all electrical devices in your institution</p>
+                    <h2 className="text-2xl font-bold">Control de dispositivos</h2>
+                    <p className="text-muted-foreground">Administra todos los dispositivos de tu institución educativa. </p>
                 </div>
                 <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
                     <DialogTrigger asChild>
                         <Button onClick={() => handleOpenDialog()} className="bg-green-600 hover:bg-green-700">
                             <Plus className="mr-2 h-4 w-4" />
-                            Add Device
+                            Agregar Dispositivo
                         </Button>
                     </DialogTrigger>
                     <DialogContent className="sm:max-w-[425px]">
@@ -285,7 +286,7 @@ export const Devices = () => {
             <div className="grid gap-4 md:grid-cols-3">
                 <Card>
                     <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                        <CardTitle className="text-sm font-medium">Total Devices</CardTitle>
+                        <CardTitle className="text-sm font-medium">Total Dispositivos</CardTitle>
                         <Zap className="h-4 w-4 text-muted-foreground" />
                     </CardHeader>
                     <CardContent>
@@ -294,7 +295,7 @@ export const Devices = () => {
                 </Card>
                 <Card>
                     <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                        <CardTitle className="text-sm font-medium">Active Devices</CardTitle>
+                        <CardTitle className="text-sm font-medium">Dispositivos Activos</CardTitle>
                         <Zap className="h-4 w-4 text-green-600" />
                     </CardHeader>
                     <CardContent>
@@ -303,7 +304,7 @@ export const Devices = () => {
                 </Card>
                 <Card>
                     <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                        <CardTitle className="text-sm font-medium">Total Consumption</CardTitle>
+                        <CardTitle className="text-sm font-medium">Consumo total</CardTitle>
                         <Zap className="h-4 w-4 text-yellow-500" />
                     </CardHeader>
                     <CardContent>
@@ -317,21 +318,21 @@ export const Devices = () => {
             <Card>
                 <CardHeader>
                     <CardTitle className="flex items-center">
-                        <Zap className="mr-2 h-5 w-5 text-green-600" />
-                        Devices Overview
+                        <FaPlug className="mr-2 h-5 w-5 text-green-600" />
+                        Dispositivos
                     </CardTitle>
                 </CardHeader>
                 <CardContent>
                     <Table>
                         <TableHeader>
                             <TableRow>
-                                <TableHead>Device</TableHead>
-                                <TableHead>Type</TableHead>
-                                <TableHead>Subtype</TableHead>
-                                <TableHead>Consumption</TableHead>
-                                <TableHead>Status</TableHead>
-                                <TableHead>Created</TableHead>
-                                <TableHead className="text-right">Actions</TableHead>
+                                <TableHead>Dispositivo</TableHead>
+                                <TableHead>Tipo</TableHead>
+                                {/* <TableHead>Subtype</TableHead> */}
+                                <TableHead>Consumo</TableHead>
+                                <TableHead>Estado</TableHead>
+                                {/* <TableHead>Creado</TableHead> */}
+                                <TableHead className="text-right">Acciones</TableHead>
                             </TableRow>
                         </TableHeader>
                         <TableBody>
@@ -343,13 +344,13 @@ export const Devices = () => {
                                             <span>{device.name}</span>
                                         </div>
                                     </TableCell>
-                                    <TableCell className="capitalize">{device.type.replace("_", " ")}</TableCell>
-                                    <TableCell>{device.subtype}</TableCell>
+                                    <TableCell className="capitalize">{device.type == 'air_conditioner' ? 'Aire Acondicionado' : 'Luz'}</TableCell>
+                                    {/* <TableCell>{device.subtype}</TableCell> */}
                                     <TableCell>{device.consumption} W/h</TableCell>
                                     <TableCell>
-                                        <Badge variant={device.status === "active" ? "default" : "secondary"}>{device.status}</Badge>
+                                        <Badge variant={device.status === "active" ? "default" : "secondary"}>{device.status == 'active' ? 'Activo' : 'Inavtivo'}</Badge>
                                     </TableCell>
-                                    <TableCell>{device.createdAt}</TableCell>
+                                    {/* <TableCell>{device.createdAt}</TableCell> */}
                                     <TableCell className="text-right">
                                         <div className="flex justify-end space-x-2">
                                             <Button variant="outline" size="sm" onClick={() => handleOpenDialog(device)}>

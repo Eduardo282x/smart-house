@@ -173,14 +173,14 @@ export const Users = () => {
         <div className="space-y-6">
             <div className="flex justify-between items-center">
                 <div>
-                    <h2 className="text-2xl font-bold">Users Management</h2>
-                    <p className="text-muted-foreground">Manage system users and their access permissions</p>
+                    <h2 className="text-2xl font-bold">Usuarios</h2>
+                    <p className="text-muted-foreground">Administra los usuarios </p>
                 </div>
                 <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
                     <DialogTrigger asChild>
                         <Button onClick={() => handleOpenDialog()} className="bg-green-600 hover:bg-green-700">
                             <Plus className="mr-2 h-4 w-4" />
-                            Add User
+                            Agregar usuario
                         </Button>
                     </DialogTrigger>
                     <DialogContent className="sm:max-w-[425px]">
@@ -249,8 +249,8 @@ export const Users = () => {
 
             <div className="grid gap-4 md:grid-cols-3">
                 <Card>
-                    <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                        <CardTitle className="text-sm font-medium">Total Users</CardTitle>
+                    <CardHeader className="flex flex-row items-center justify-between space-y-0 -mb-5">
+                        <CardTitle className="text-sm font-medium">Total Usuarios</CardTitle>
                         <FaUserFriends className="h-4 w-4 text-muted-foreground" />
                     </CardHeader>
                     <CardContent>
@@ -258,8 +258,8 @@ export const Users = () => {
                     </CardContent>
                 </Card>
                 <Card>
-                    <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                        <CardTitle className="text-sm font-medium">Active Users</CardTitle>
+                    <CardHeader className="flex flex-row items-center justify-between space-y-0 -mb-5">
+                        <CardTitle className="text-sm font-medium">Usuarios Activos</CardTitle>
                         <FaUserFriends className="h-4 w-4 text-green-600" />
                     </CardHeader>
                     <CardContent>
@@ -267,8 +267,8 @@ export const Users = () => {
                     </CardContent>
                 </Card>
                 <Card>
-                    <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                        <CardTitle className="text-sm font-medium">Administrators</CardTitle>
+                    <CardHeader className="flex flex-row items-center justify-between space-y-0 -mb-5">
+                        <CardTitle className="text-sm font-medium">Administradores</CardTitle>
                         <Shield className="h-4 w-4 text-red-500" />
                     </CardHeader>
                     <CardContent>
@@ -281,20 +281,20 @@ export const Users = () => {
                 <CardHeader>
                     <CardTitle className="flex items-center">
                         <FaUserFriends className="mr-2 h-5 w-5 text-green-600" />
-                        Users Overview
+                        Usuarios
                     </CardTitle>
                 </CardHeader>
                 <CardContent>
                     <Table>
                         <TableHeader>
                             <TableRow>
-                                <TableHead>User</TableHead>
+                                <TableHead>Usuario</TableHead>
                                 <TableHead>Email</TableHead>
-                                <TableHead>Role</TableHead>
-                                <TableHead>Status</TableHead>
-                                <TableHead>Last Login</TableHead>
-                                <TableHead>Created</TableHead>
-                                <TableHead className="text-right">Actions</TableHead>
+                                <TableHead>Rol</TableHead>
+                                {/* <TableHead>Status</TableHead> */}
+                                {/* <TableHead>Last Login</TableHead> */}
+                                <TableHead>Creado</TableHead>
+                                <TableHead className="text-right">Acciones</TableHead>
                             </TableRow>
                         </TableHeader>
                         <TableBody>
@@ -322,10 +322,10 @@ export const Users = () => {
                                             </Badge>
                                         </div>
                                     </TableCell>
-                                    <TableCell>
+                                    {/* <TableCell>
                                         <Badge variant={user.status === "active" ? "default" : "secondary"}>{user.status}</Badge>
-                                    </TableCell>
-                                    <TableCell className="text-sm">{user.lastLogin}</TableCell>
+                                    </TableCell> */}
+                                    {/* <TableCell className="text-sm">{user.lastLogin}</TableCell> */}
                                     <TableCell>{user.createdAt}</TableCell>
                                     <TableCell className="text-right">
                                         <div className="flex justify-end space-x-2">

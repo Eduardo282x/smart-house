@@ -47,9 +47,9 @@ export const Settings = () => {
         {
             id: "1",
             areaId: "1",
-            areaName: "Main Entrance",
+            areaName: "Entrada principal",
             deviceId: "1",
-            deviceName: "Main Entrance Light 1",
+            deviceName: "Luz Entrada principal 1",
             deviceType: "light",
             deviceSubtype: "LED",
             consumption: 12,
@@ -58,9 +58,9 @@ export const Settings = () => {
         {
             id: "2",
             areaId: "1",
-            areaName: "Main Entrance",
+            areaName: "Entrada principal",
             deviceId: "2",
-            deviceName: "Main Entrance Light 2",
+            deviceName: "Luz Entrada principal 2",
             deviceType: "light",
             deviceSubtype: "LED",
             consumption: 12,
@@ -69,9 +69,9 @@ export const Settings = () => {
         {
             id: "3",
             areaId: "2",
-            areaName: "Classroom 1",
+            areaName: "Salon 1",
             deviceId: "3",
-            deviceName: "Classroom 1 AC",
+            deviceName: "Aire Split 12BTU",
             deviceType: "air_conditioner",
             deviceSubtype: "Split",
             consumption: 150,
@@ -80,9 +80,9 @@ export const Settings = () => {
         {
             id: "4",
             areaId: "2",
-            areaName: "Classroom 1",
+            areaName: "Salon 1",
             deviceId: "4",
-            deviceName: "Classroom 1 Light 1",
+            deviceName: "Luz Principal",
             deviceType: "light",
             deviceSubtype: "Fluorescent",
             consumption: 18,
@@ -92,10 +92,10 @@ export const Settings = () => {
 
     // Mock data for areas and devices
     const areas = [
-        { id: "1", name: "Main Entrance" },
-        { id: "2", name: "Classroom 1" },
-        { id: "3", name: "Classroom 2" },
-        { id: "4", name: "Dining Area" },
+        { id: "1", name: "Entrada principal" },
+        { id: "2", name: "Salon 1" },
+        { id: "3", name: "Salon 2" },
+        { id: "4", name: "Comedor" },
     ]
 
     const devices = [
@@ -204,14 +204,14 @@ export const Settings = () => {
         <div className="space-y-6">
             <div className="flex justify-between items-center">
                 <div>
-                    <h2 className="text-2xl font-bold">Configuration Management</h2>
-                    <p className="text-muted-foreground">Assign devices to areas and manage configurations</p>
+                    <h2 className="text-2xl font-bold">Configuración</h2>
+                    <p className="text-muted-foreground">Asigna los dispositivos a las areas</p>
                 </div>
                 <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
                     <DialogTrigger asChild>
                         <Button onClick={() => handleOpenDialog()} className="bg-green-600 hover:bg-green-700">
                             <Plus className="mr-2 h-4 w-4" />
-                            Assign Device
+                            Asignar dispositivo
                         </Button>
                     </DialogTrigger>
                     <DialogContent className="sm:max-w-[425px]">
@@ -277,12 +277,12 @@ export const Settings = () => {
             <div className="grid gap-4 md:grid-cols-4">
                 {getAreaStats().map((area) => (
                     <Card key={area.id}>
-                        <CardHeader className="pb-2">
+                        <CardHeader className="-mb-6">
                             <CardTitle className="text-sm font-medium">{area.name}</CardTitle>
                         </CardHeader>
                         <CardContent>
                             <div className="text-2xl font-bold">{area.deviceCount}</div>
-                            <p className="text-xs text-muted-foreground">devices</p>
+                            <p className="text-xs text-muted-foreground">Dispositivos</p>
                             <div className="text-sm font-medium text-green-600 mt-1">{area.totalConsumption} W/h</div>
                         </CardContent>
                     </Card>
@@ -293,21 +293,21 @@ export const Settings = () => {
                 <CardHeader>
                     <CardTitle className="flex items-center">
                         <IoSettingsOutline className="mr-2 h-5 w-5 text-green-600" />
-                        Device Assignments
+                        Dispositivos asignados
                     </CardTitle>
-                    <CardDescription>Current device assignments by area</CardDescription>
+                    <CardDescription>Dispositivos actuales por area</CardDescription>
                 </CardHeader>
                 <CardContent>
                     <Table>
                         <TableHeader>
                             <TableRow>
                                 <TableHead>Area</TableHead>
-                                <TableHead>Device</TableHead>
-                                <TableHead>Type</TableHead>
-                                <TableHead>Subtype</TableHead>
-                                <TableHead>Consumption</TableHead>
-                                <TableHead>Assigned</TableHead>
-                                <TableHead className="text-right">Actions</TableHead>
+                                <TableHead>Dispositivo</TableHead>
+                                <TableHead>Tipo</TableHead>
+                                {/* <TableHead>Subtype</TableHead> */}
+                                <TableHead>Consumo</TableHead>
+                                {/* <TableHead>Asignado</TableHead> */}
+                                <TableHead className="text-right">Acciones</TableHead>
                             </TableRow>
                         </TableHeader>
                         <TableBody>
@@ -320,10 +320,10 @@ export const Settings = () => {
                                             <span>{assignment.deviceName}</span>
                                         </div>
                                     </TableCell>
-                                    <TableCell className="capitalize">{assignment.deviceType.replace("_", " ")}</TableCell>
-                                    <TableCell>{assignment.deviceSubtype}</TableCell>
+                                    <TableCell className="capitalize">{assignment.deviceType == 'light' ? 'Luz' : 'Aire Acondicionado'}</TableCell>
+                                    {/* <TableCell>{assignment.deviceSubtype}</TableCell> */}
                                     <TableCell>{assignment.consumption} W/h</TableCell>
-                                    <TableCell>{assignment.assignedAt}</TableCell>
+                                    {/* <TableCell>{assignment.assignedAt}</TableCell> */}
                                     <TableCell className="text-right">
                                         <div className="flex justify-end space-x-2">
                                             <Button variant="outline" size="sm" onClick={() => handleOpenDialog(assignment)}>

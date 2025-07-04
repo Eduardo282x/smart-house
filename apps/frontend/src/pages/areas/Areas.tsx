@@ -42,7 +42,7 @@ export const Areas = () => {
     const [areas, setAreas] = useState<Area[]>([
         {
             id: "1",
-            name: "Main Entrance",
+            name: "Entrada principal",
             description: "Main entrance and reception area",
             size: 50,
             capacity: 20,
@@ -50,23 +50,23 @@ export const Areas = () => {
         },
         {
             id: "2",
-            name: "Classroom 1",
-            description: "Primary classroom for mathematics and sciences",
+            name: "Salon 1",
+            description: "Primary Salon for mathematics and sciences",
             size: 80,
             capacity: 30,
             createdAt: "2024-01-15",
         },
         {
             id: "3",
-            name: "Classroom 2",
-            description: "Secondary classroom for languages and humanities",
+            name: "Salon 2",
+            description: "Secondary Salon for languages and humanities",
             size: 75,
             capacity: 28,
             createdAt: "2024-01-15",
         },
         {
             id: "4",
-            name: "Dining Area",
+            name: "Comedor",
             description: "Student and staff dining area",
             size: 120,
             capacity: 50,
@@ -143,14 +143,14 @@ export const Areas = () => {
         <div className="space-y-6">
             <div className="flex justify-between items-center">
                 <div>
-                    <h2 className="text-2xl font-bold">Areas Management</h2>
-                    <p className="text-muted-foreground">Manage all areas in your educational institution</p>
+                    <h2 className="text-2xl font-bold">Control de Areas</h2>
+                    <p className="text-muted-foreground">Maneja todas las areas en tu institución educativa.</p>
                 </div>
                 <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
                     <DialogTrigger asChild>
                         <Button onClick={() => handleOpenDialog()} className="bg-green-600 hover:bg-green-700">
                             <Plus className="mr-2 h-4 w-4" />
-                            Add Area
+                            Agregar Area
                         </Button>
                     </DialogTrigger>
                     <DialogContent className="sm:max-w-[425px]">
@@ -218,7 +218,7 @@ export const Areas = () => {
                 <CardHeader>
                     <CardTitle className="flex items-center">
                         <Building className="mr-2 h-5 w-5 text-green-600" />
-                        Areas Overview
+                        Areas
                     </CardTitle>
                     <CardDescription>Total areas: {areas.length}</CardDescription>
                 </CardHeader>
@@ -226,22 +226,22 @@ export const Areas = () => {
                     <Table>
                         <TableHeader>
                             <TableRow>
-                                <TableHead>Name</TableHead>
-                                <TableHead>Description</TableHead>
+                                <TableHead>Area</TableHead>
+                                {/* <TableHead>Description</TableHead>
                                 <TableHead>Size (m²)</TableHead>
                                 <TableHead>Capacity</TableHead>
-                                <TableHead>Created</TableHead>
-                                <TableHead className="text-right">Actions</TableHead>
+                                <TableHead>Created</TableHead> */}
+                                <TableHead className="text-right">Acciones</TableHead>
                             </TableRow>
                         </TableHeader>
                         <TableBody>
                             {areas.map((area) => (
                                 <TableRow key={area.id}>
                                     <TableCell className="font-medium">{area.name}</TableCell>
-                                    <TableCell className="max-w-xs truncate">{area.description}</TableCell>
+                                    {/* <TableCell className="max-w-xs truncate">{area.description}</TableCell>
                                     <TableCell>{area.size}</TableCell>
                                     <TableCell>{area.capacity}</TableCell>
-                                    <TableCell>{area.createdAt}</TableCell>
+                                    <TableCell>{area.createdAt}</TableCell> */}
                                     <TableCell className="text-right">
                                         <div className="flex justify-end space-x-2">
                                             <Button variant="outline" size="sm" onClick={() => handleOpenDialog(area)}>
