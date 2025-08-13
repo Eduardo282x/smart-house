@@ -12,3 +12,46 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+model Sensor {
+  id        Int       @id @default(autoincrement())
+  name      String
+  type      String // Ej: "temperatura", "movimiento", "gas"
+  pin       String? // Pin GPIO donde está conectado
+  isActive  Boolean   @default(true)
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  readings  Reading[] // Historial de lecturas
+  alerts    Alert[] // Alertas asociadas
+}
+
+model Reading {
+  id           Int            @id @default(autoincrement())
+  sensorId     Int
+  sensor       Sensor         @relation(fields: [sensorId], references: [id])
+  value        Float // Valor numérico (ej. °C, distancia en cm, ppm de gas)
+  unit         String? // Ej: "°C", "cm", "ppm"
+  createdAt    DateTime       @default(now())
+  AlertTrigger AlertTrigger[]
+}
+
+model Alert {
+  id            Int            @id @default(autoincrement())
+  sensorId      Int
+  sensor        Sensor         @relation(fields: [sensorId], references: [id])
+  name          String
+  condition     String // Ej: ">", "<", ">=", "<=", "=="
+  threshold     Float
+  isEnabled     Boolean        @default(true)
+  createdAt     DateTime       @default(now())
+  triggeredLogs AlertTrigger[] // Historial de activaciones
+}
+
+model AlertTrigger {
+  id          Int      @id @default(autoincrement())
+  alertId     Int
+  alert       Alert    @relation(fields: [alertId], references: [id])
+  readingId   Int
+  reading     Reading  @relation(fields: [readingId], references: [id])
+  triggeredAt DateTime @default(now())
+}

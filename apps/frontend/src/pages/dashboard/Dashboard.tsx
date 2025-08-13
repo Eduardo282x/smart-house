@@ -5,6 +5,8 @@ import { Panel } from "../panel/Panel"
 import { SensorConfigPanel } from "../sensor-config-panel/SensorConfigPanel"
 import { ConnectionStatus } from "../connection-status/ConnectionStatus"
 import { AlertsPanel } from "../alertPanel/AlertPanel"
+import { MdDeviceHub } from "react-icons/md";
+import { Sensors } from "../sensors/Sensors"
 
 export const Dashboard = () => {
     const [isConnected, setIsConnected] = useState(true)
@@ -23,10 +25,14 @@ export const Dashboard = () => {
             </header>
 
             <Tabs defaultValue="main" className="w-full">
-                <TabsList className="grid w-full grid-cols-3 mb-8">
+                <TabsList className="grid w-full grid-cols-4 mb-8">
                     <TabsTrigger value="main" className="flex items-center gap-2">
                         <LayoutGrid className="h-4 w-4" />
                         <span className="hidden sm:inline">Panel Principal</span>
+                    </TabsTrigger>
+                    <TabsTrigger value="sensors" className="flex items-center gap-2">
+                        <MdDeviceHub  className="h-4 w-4" />
+                        <span className="hidden sm:inline">Sensores</span>
                     </TabsTrigger>
                     <TabsTrigger value="config" className="flex items-center gap-2">
                         <Settings className="h-4 w-4" />
@@ -44,6 +50,10 @@ export const Dashboard = () => {
 
                 <TabsContent value="config" className="mt-0">
                     <SensorConfigPanel />
+                </TabsContent>
+
+                <TabsContent value="sensors" className="mt-0">
+                    <Sensors />
                 </TabsContent>
 
                 <TabsContent value="alerts" className="mt-0">

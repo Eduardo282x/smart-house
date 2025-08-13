@@ -1,0 +1,36 @@
+import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { AlertService } from './alert.service';
+import { CreateAlertDto } from './dto/create-alert.dto';
+import { UpdateAlertDto } from './dto/update-alert.dto';
+
+@Controller('alert')
+export class AlertController {
+  constructor(private readonly alertService: AlertService) { }
+
+
+  @Get()
+  async getAlerts() {
+    return await this.alertService.getAlerts();
+  }
+
+  @Post()
+  create(@Body() createAlertDto: CreateAlertDto) {
+    return this.alertService.create(createAlertDto);
+  }
+
+
+  @Get(':id')
+  findOne(@Param('id') id: string) {
+    return this.alertService.findOne(+id);
+  }
+
+  @Patch(':id')
+  update(@Param('id') id: string, @Body() updateAlertDto: UpdateAlertDto) {
+    return this.alertService.update(+id, updateAlertDto);
+  }
+
+  @Delete(':id')
+  remove(@Param('id') id: string) {
+    return this.alertService.remove(+id);
+  }
+}
