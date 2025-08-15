@@ -35,12 +35,21 @@ model Reading {
   AlertTrigger AlertTrigger[]
 }
 
+model Notification {
+  id             Int          @id @default(autoincrement())
+  alertTriggerId Int
+  alertTrigger   AlertTrigger @relation(fields: [alertTriggerId], references: [id])
+  read           Boolean
+  createdAt      DateTime     @default(now())
+}
+
 model Alert {
   id            Int            @id @default(autoincrement())
   sensorId      Int
   sensor        Sensor         @relation(fields: [sensorId], references: [id])
   name          String
-  condition     String // Ej: ">", "<", ">=", "<=", "=="
+  action        String         @default("")
+  condition     String // Ej: "greater", "less", "equal"
   threshold     Float
   isEnabled     Boolean        @default(true)
   createdAt     DateTime       @default(now())
@@ -48,10 +57,11 @@ model Alert {
 }
 
 model AlertTrigger {
-  id          Int      @id @default(autoincrement())
-  alertId     Int
-  alert       Alert    @relation(fields: [alertId], references: [id])
-  readingId   Int
-  reading     Reading  @relation(fields: [readingId], references: [id])
-  triggeredAt DateTime @default(now())
+  id           Int            @id @default(autoincrement())
+  alertId      Int
+  alert        Alert          @relation(fields: [alertId], references: [id])
+  readingId    Int
+  reading      Reading        @relation(fields: [readingId], references: [id])
+  triggeredAt  DateTime       @default(now())
+  Notification Notification[]
 }

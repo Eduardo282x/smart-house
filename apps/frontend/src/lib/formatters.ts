@@ -25,7 +25,7 @@ export const formatHourShort = (date: Date | string): string => {
     return `${hours.toString().padStart(2, '0')}:${minutes}${ampm}`;
 }
 
-export const getDaysUntil = (date: Date | string): number =>  {
+export const getDaysUntil = (date: Date | string): number => {
     const now = new Date();
     const target = typeof date === 'string' ? new Date(date) : date;
     // Limpiar horas para comparar solo fechas
@@ -33,4 +33,23 @@ export const getDaysUntil = (date: Date | string): number =>  {
     target.setHours(0, 0, 0, 0);
     const diff = target.getTime() - now.getTime();
     return Math.max(0, Math.ceil(diff / (1000 * 60 * 60 * 24)));
+}
+
+
+export const timeAgo = (date: Date | string): string => {
+    const now = new Date();
+    const past = typeof date === 'string' ? new Date(date) : date;
+    const seconds = Math.floor((now.getTime() - past.getTime()) / 1000);
+
+    if (seconds < 60) {
+        return `hace ${seconds} segundo${seconds !== 1 ? 's' : ''}`;
+    }
+
+    const minutes = Math.floor(seconds / 60);
+    if (minutes < 60) {
+        return `hace ${minutes} minuto${minutes !== 1 ? 's' : ''}`;
+    }
+
+    const hours = Math.floor(minutes / 60);
+    return `hace ${hours} hora${hours !== 1 ? 's' : ''}`;
 }

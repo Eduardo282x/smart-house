@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -6,65 +6,98 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Switch } from "@/components/ui/switch"
 import { Label } from "@/components/ui/label"
 import { Trash2, Plus, Bell } from "lucide-react"
+import { createAlert, deleteAlert, getAllAlerts, updateAlert } from "@/service/alert/alert.service"
+import { Sensor } from "../panel/panel.data"
+import { getSensors } from "@/service/sensor/sensor.service"
+import { AlertBody } from "@/service/alert/alert.interface"
+import { formatDateShort } from "@/lib/formatters"
 
-interface AlertRule {
-    id: string
-    sensor: string
-    condition: string
-    value: string
-    action: string
-    isActive: boolean
+export interface IAlert {
+    id: number;
+    sensorId: number;
+    name: string;
+    condition: ConditionAlerts;
+    action: ActionAlerts;
+    threshold: number;
+    isEnabled: boolean;
+    createdAt: Date;
+    sensor: Sensor;
 }
 
+export type ActionAlerts = 'notify' | 'light' | 'fan' | 'alarm';
+type ConditionAlerts = 'greater' | 'less' | 'equal';
+
 export const AlertsPanel = () => {
-    const [alertRules, setAlertRules] = useState<AlertRule[]>([
-        {
-            id: "1",
-            sensor: "Sensor Cocina",
-            condition: ">",
-            value: "30",
-            action: "Enviar notificación",
-            isActive: true,
-        },
-        {
-            id: "2",
-            sensor: "Detector Entrada",
-            condition: "=",
-            value: "Movimiento detectado",
-            action: "Encender luz",
-            isActive: false,
-        },
-        {
-            id: "3",
-            sensor: "Humedad Baño",
-            condition: ">",
-            value: "80",
-            action: "Activar ventilador",
-            isActive: true,
-        },
-    ])
+    const [alertRules, setAlertRules] = useState<IAlert[]>([]);
+    const [sensors, setSensors] = useState<Sensor[]>([]);
+
+    const [newAlert, setNewAlert] = useState<AlertBody>({
+        sensorId: 0,
+        name: '',
+        condition: '',
+        action: '',
+        threshold: 0,
+        isEnabled: true
+    });
 
     const [showNewRule, setShowNewRule] = useState(false)
 
-    const toggleRuleStatus = (id: string) => {
-        setAlertRules(alertRules.map((rule) => (rule.id === id ? { ...rule, isActive: !rule.isActive } : rule)))
+    const toggleRuleStatus = async (id: number) => {
+        setAlertRules(alertRules.map((rule) => (rule.id === id ? { ...rule, isEnabled: !rule.isEnabled } : rule)))
+        const findAlert = alertRules.find(item => item.id == id) as IAlert;
+        await updateAlert(id, { ...findAlert, isEnabled: !findAlert.isEnabled })
+        await getAlertApi();
     }
 
-    const deleteRule = (id: string) => {
-        setAlertRules(alertRules.filter((rule) => rule.id !== id))
+    const deleteRule = async (id: number) => {
+        await deleteAlert(id)
+        await getAlertApi();
     }
 
-    const addNewRule = () => {
-        const newRule: AlertRule = {
-            id: `rule-${Date.now()}`,
-            sensor: "",
-            condition: ">",
-            value: "",
-            action: "",
-            isActive: true,
-        }
-        setAlertRules([...alertRules, newRule])
+    const addNewRule = async () => {
+        await createAlert(newAlert)
+        await getAlertApi();
         setShowNewRule(false)
+    }
+
+    useEffect(() => {
+        getAlertApi();
+        getSensorApi();
+    }, [])
+
+    const getAlertApi = async () => {
+        const response = await getAllAlerts();
+        setAlertRules(response);
+    }
+    const getSensorApi = async () => {
+        const response = await getSensors();
+        setSensors(response);
+    }
+
+    const setActionDescription = (action: ActionAlerts): string => {
+        switch (action) {
+            case 'light':
+                return 'Encender luz';
+            case 'notify':
+                return 'Enviar notificación';
+            case 'fan':
+                return 'Activar ventilador ';
+            default:
+                return ''
+        }
+    }
+
+    const setConditionDescription = (action: ConditionAlerts): string => {
+        switch (action) {
+            case 'greater':
+                return '>';
+            case 'less':
+                return '<';
+            case 'equal':
+                return '=';
+            default:
+                return ''
+        }
     }
 
     return (
@@ -76,7 +109,7 @@ export const AlertsPanel = () => {
                             <CardTitle>Reglas de Alerta</CardTitle>
                             <CardDescription>Configura acciones automáticas basadas en los valores de los sensores</CardDescription>
                         </div>
-                        <Button onClick={() => setShowNewRule(true)} className="flex items-center gap-1">
+                        <Button onClick={() => setShowNewRule(true)} className="flex items-center gap-1 bg-green-700 hover:bg-green-600">
                             <Plus className="h-4 w-4" />
                             Nueva Regla
                         </Button>
@@ -87,65 +120,78 @@ export const AlertsPanel = () => {
                         <Card className="mb-6 border-dashed">
                             <CardContent className="pt-6">
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-                                    <div className="space-y-2">
-                                        <Label htmlFor="sensor">Sensor</Label>
-                                        <Select>
-                                            <SelectTrigger id="sensor">
-                                                <SelectValue placeholder="Seleccionar sensor" />
-                                            </SelectTrigger>
-                                            <SelectContent>
-                                                <SelectItem value="sensor1">Sensor Cocina</SelectItem>
-                                                <SelectItem value="sensor2">Detector Entrada</SelectItem>
-                                                <SelectItem value="sensor3">Humedad Baño</SelectItem>
-                                                <SelectItem value="sensor4">Calidad Aire</SelectItem>
-                                                <SelectItem value="sensor5">Luz Salón</SelectItem>
-                                                <SelectItem value="sensor6">Proximidad Garaje</SelectItem>
-                                            </SelectContent>
-                                        </Select>
+                                    <div>
+                                        <div className="space-y-2 mb-6">
+                                            <Label htmlFor="value">Nombre</Label>
+                                            <Input id="value" type="text" placeholder="Nombre de la alerta" className="w-80" onChange={(e) => setNewAlert(prev => ({ ...prev, name: e.target.value }))} />
+                                        </div>
+
+                                        <div className="space-y-2 mb-6">
+                                            <Label htmlFor="sensor">Sensor</Label>
+                                            <Select
+                                                value={newAlert.sensorId.toString()}
+                                                onValueChange={(value) => setNewAlert(prev => ({ ...prev, sensorId: Number(value) }))}
+                                            >
+                                                <SelectTrigger id="sensor" className="w-80">
+                                                    <SelectValue placeholder="Seleccionar sensor" />
+                                                </SelectTrigger>
+                                                <SelectContent>
+                                                    {sensors.map(item => (
+                                                        <SelectItem value={item.id.toString()} key={item.id}>{item.name}</SelectItem>
+                                                    ))}
+                                                </SelectContent>
+                                            </Select>
+                                        </div>
+
+                                        <div className="space-y-2">
+                                            <Label htmlFor="action">Acción</Label>
+                                            <Select
+                                                value={newAlert.action}
+                                                onValueChange={(value) => setNewAlert(prev => ({ ...prev, action: value }))}
+                                            >
+                                                <SelectTrigger id="action" className="w-80">
+                                                    <SelectValue placeholder="Seleccionar acción" />
+                                                </SelectTrigger>
+                                                <SelectContent>
+                                                    <SelectItem value="notify">Enviar notificación</SelectItem>
+                                                    <SelectItem value="light">Encender luz</SelectItem>
+                                                    <SelectItem value="fan">Activar ventilador</SelectItem>
+                                                </SelectContent>
+                                            </Select>
+                                        </div>
                                     </div>
 
                                     <div className="grid grid-cols-3 gap-2">
                                         <div className="space-y-2">
                                             <Label htmlFor="condition">Condición</Label>
-                                            <Select defaultValue=">">
+                                            <Select
+                                                defaultValue="greater"
+                                                onValueChange={(value) => setNewAlert(prev => ({ ...prev, condition: value }))}>
                                                 <SelectTrigger id="condition">
                                                     <SelectValue />
                                                 </SelectTrigger>
                                                 <SelectContent>
-                                                    <SelectItem value=">">Mayor que</SelectItem>
-                                                    <SelectItem value="<">Menor que</SelectItem>
-                                                    <SelectItem value="=">Igual a</SelectItem>
+                                                    <SelectItem value="greater">Mayor que</SelectItem>
+                                                    <SelectItem value="less">Menor que</SelectItem>
+                                                    <SelectItem value="equal">Igual a</SelectItem>
                                                 </SelectContent>
                                             </Select>
                                         </div>
 
                                         <div className="col-span-2 space-y-2">
                                             <Label htmlFor="value">Valor</Label>
-                                            <Input id="value" placeholder="Valor" />
+                                            <Input id="value" type="number" placeholder="Valor" onChange={(e) => setNewAlert(prev => ({ ...prev, threshold: Number(e.target.value) }))} />
                                         </div>
                                     </div>
-                                </div>
-
-                                <div className="space-y-2 mb-6">
-                                    <Label htmlFor="action">Acción</Label>
-                                    <Select>
-                                        <SelectTrigger id="action">
-                                            <SelectValue placeholder="Seleccionar acción" />
-                                        </SelectTrigger>
-                                        <SelectContent>
-                                            <SelectItem value="notify">Enviar notificación</SelectItem>
-                                            <SelectItem value="light">Encender luz</SelectItem>
-                                            <SelectItem value="fan">Activar ventilador</SelectItem>
-                                            <SelectItem value="alarm">Activar alarma</SelectItem>
-                                        </SelectContent>
-                                    </Select>
                                 </div>
 
                                 <div className="flex justify-end gap-2">
                                     <Button variant="outline" onClick={() => setShowNewRule(false)}>
                                         Cancelar
                                     </Button>
-                                    <Button onClick={addNewRule}>Guardar Regla</Button>
+                                    <Button
+                                        className="bg-blue-700 hover:bg-blue-500"
+                                        onClick={addNewRule}>Guardar Regla</Button>
                                 </div>
                             </CardContent>
                         </Card>
@@ -169,21 +215,22 @@ export const AlertsPanel = () => {
                                     <div className="flex-1">
                                         <div className="flex items-center gap-2">
                                             <p className="font-medium">
-                                                {rule.sensor} {rule.condition} {rule.value}
+                                                {rule.sensor.name} {setConditionDescription(rule.condition)} {rule.threshold}
                                             </p>
                                             <span className="text-sm text-gray-500 dark:text-gray-400">→</span>
-                                            <p className="text-sm text-gray-700 dark:text-gray-300">{rule.action}</p>
+                                            <p className="text-sm text-gray-700 dark:text-gray-300">{setActionDescription(rule.action)}</p>
                                         </div>
+                                        <p className="text-sm mt-2">Agregado: {formatDateShort(rule.createdAt)} </p>
                                     </div>
                                     <div className="flex items-center gap-4">
                                         <div className="flex items-center space-x-2">
                                             <Switch
                                                 id={`rule-${rule.id}`}
-                                                checked={rule.isActive}
+                                                checked={rule.isEnabled}
                                                 onCheckedChange={() => toggleRuleStatus(rule.id)}
                                             />
                                             <Label htmlFor={`rule-${rule.id}`} className="text-sm">
-                                                {rule.isActive ? "Activa" : "Inactiva"}
+                                                {rule.isEnabled ? "Activa" : "Inactiva"}
                                             </Label>
                                         </div>
                                         <Button
@@ -201,8 +248,8 @@ export const AlertsPanel = () => {
                         </ul>
                     )}
                 </CardContent>
-            </Card>
-        </div>
+            </Card >
+        </div >
     )
 }
 

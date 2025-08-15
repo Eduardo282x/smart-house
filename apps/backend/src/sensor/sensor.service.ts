@@ -10,11 +10,13 @@ export class SensorService {
     }
 
     async getSensors() {
-        return await this.prismaService.sensor.findMany();
+        return await this.prismaService.sensor.findMany({
+            orderBy: { id: 'asc' }
+        });
     }
     async saveSensors(sensor: SensorDTO) {
         try {
-            this.prismaService.sensor.create({
+            await this.prismaService.sensor.create({
                 data: {
                     name: sensor.name,
                     type: sensor.type,
@@ -30,7 +32,7 @@ export class SensorService {
     }
     async updateSensors(id: number, sensor: SensorDTO) {
         try {
-            this.prismaService.sensor.update({
+            await this.prismaService.sensor.update({
                 data: {
                     name: sensor.name,
                     type: sensor.type,
@@ -47,7 +49,7 @@ export class SensorService {
     }
     async deleteSensors(id: number) {
         try {
-            this.prismaService.sensor.delete({ where: { id } })
+            await this.prismaService.sensor.delete({ where: { id } })
 
             return { success: true, message: 'Sensor eliminado.' }
         } catch (err) {

@@ -16,5 +16,10 @@
   "description": "",
   "devDependencies": {
     "turbo": "^2.5.0"
+  },
+  "dependencies": {
+    "@nestjs/platform-socket.io": "^11.1.6",
+    "@nestjs/websockets": "^11.1.6",
+    "backend": "^0.0.1"
   }
 }

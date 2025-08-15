@@ -13,19 +13,19 @@ export class MainLoadService {
             data: [
                 {
                     name: "Sensor de Proximidad HC-SR04",
-                    type: "proximidad",
+                    type: "Proximidad",
                     pin: "GPIO2",
                     isActive: true,
                 },
                 {
                     name: "Sensor de Temperatura y Humedad DHT11",
-                    type: "temperatura",
+                    type: "Temperatura",
                     pin: "GPIO4",
                     isActive: true,
                 },
                 {
                     name: "Sensor de Gas Flying Fish",
-                    type: "gas",
+                    type: "Gas",
                     pin: "GPIO5",
                     isActive: true,
                 },
@@ -40,15 +40,15 @@ export class MainLoadService {
                 let value, unit;
 
                 switch (sensor.type) {
-                    case "proximidad":
+                    case "Proximidad":
                         value = Math.floor(Math.random() * 200); // cm
                         unit = "cm";
                         break;
-                    case "temperatura":
+                    case "Temperatura":
                         value = (Math.random() * 10 + 20).toFixed(2); // 20-30°C
                         unit = "°C";
                         break;
-                    case "gas":
+                    case "Gas":
                         value = Math.floor(Math.random() * 500); // ppm
                         unit = "ppm";
                         break;
@@ -73,21 +73,21 @@ export class MainLoadService {
             data: [
                 {
                     name: "Temperatura alta",
-                    condition: ">",
+                    condition: "greater",
                     threshold: 28,
                     // unit: "°C",
                     sensorId: sensorList.find((s) => s.type === "temperatura").id,
                 },
                 {
                     name: "Gas peligroso",
-                    condition: ">",
+                    condition: "less",
                     threshold: 300,
                     // unit: "ppm",
                     sensorId: sensorList.find((s) => s.type === "gas").id,
                 },
                 {
                     name: "Objeto muy cercano",
-                    condition: "<",
+                    condition: "less",
                     threshold: 10,
                     // unit: "cm",
                     sensorId: sensorList.find((s) => s.type === "proximidad").id,

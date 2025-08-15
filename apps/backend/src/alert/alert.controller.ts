@@ -1,12 +1,16 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, Delete, Put, ParseIntPipe } from '@nestjs/common';
 import { AlertService } from './alert.service';
-import { CreateAlertDto } from './dto/create-alert.dto';
-import { UpdateAlertDto } from './dto/update-alert.dto';
+import { AlertDTO } from './alert.dto';
 
 @Controller('alert')
 export class AlertController {
   constructor(private readonly alertService: AlertService) { }
 
+
+  @Get('/all')
+  async getAllAlerts() {
+    return await this.alertService.getAllAlerts();
+  }
 
   @Get()
   async getAlerts() {
@@ -14,23 +18,17 @@ export class AlertController {
   }
 
   @Post()
-  create(@Body() createAlertDto: CreateAlertDto) {
-    return this.alertService.create(createAlertDto);
+  async create(@Body() createAlertDto: AlertDTO) {
+    return await this.alertService.createAlert(createAlertDto);
   }
 
-
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.alertService.findOne(+id);
+  @Put('/:id')
+  async update(@Param('id', ParseIntPipe) id: number, @Body() updateAlertDto: AlertDTO) {
+    return await this.alertService.updateAlert(id, updateAlertDto);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateAlertDto: UpdateAlertDto) {
-    return this.alertService.update(+id, updateAlertDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.alertService.remove(+id);
+  @Delete('/:id')
+  async remove(@Param('id', ParseIntPipe) id: number) {
+    return await this.alertService.deleteAlerts(id);
   }
 }
